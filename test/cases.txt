@@ -1,41 +1,6 @@
-# Booleans
-
-#t
-#f
-
-==>
-
-Program(Boolean, Boolean)
-
-# Identifiers
-
-one
-Two_Three
-
-==>
-
-Program(Identifier, Identifier)
-
-# Strings
-
-"hello"
-"one\"\\two"
-
-==>
-
-Program(String, String)
-
-# Applications
-
-(begin
-  (when #t
-    (print (concat "hello" " " "world")))
-  (print "DONE"))
-
-==>
-
-Program(Application(
-  Identifier,
-  Application(Identifier, Boolean, Application(
-    Identifier, Application(Identifier, String, String, String)))
-  Application(Identifier, String)))
+fn getQuad(vertex: i32) -> MeshVertex {
+  let uv: vec2<f32> = getQuadUV(vertex);
+  let position: vec4<f32> = vec4<f32>(uv * 2.0 - 1.0, 0.0, 1.0);
+  let color: vec4<f32> = vec4<f32>(1.0, 0.0, 1.0, 1.0);
+  return MeshVertex(position, color, uv);
+}
