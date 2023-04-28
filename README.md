@@ -1,4 +1,12 @@
-# CodeMirror 6 language package template
+# CodeMirror 6 WGSL language support
+
+Based entirely on: 
+https://gitlab.com/unconed/use.gpu/-/tree/master/packages/shader/src/wgsl/grammar
+
+
+
+
+# Original readme
 
 This is an example repository containing a minimal [CodeMirror](https://codemirror.net/6/) language support package. The idea is to clone it, rename it, and edit it to create support for a new language.
 
