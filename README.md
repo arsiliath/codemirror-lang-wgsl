@@ -1,5 +1,7 @@
 # CodeMirror 6 WGSL language support
 
+NOT CURRENTLY WORKING. if anyone knows how to get this working, please let me know.
+
 Based entirely on: 
 https://gitlab.com/unconed/use.gpu/-/tree/master/packages/shader/src/wgsl/grammar
 
