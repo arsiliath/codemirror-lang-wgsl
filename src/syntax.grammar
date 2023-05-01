@@ -498,3 +498,7 @@ Reserved {
   r<'void'> |
   r<'while'>
 }
+
+@external propSource wgslHighlight from "./highlight"
+
+@detectDelim

@@ -1,6 +1,7 @@
-fn getQuad(vertex: i32) -> MeshVertex {
-  let uv: vec2<f32> = getQuadUV(vertex);
-  let position: vec4<f32> = vec4<f32>(uv * 2.0 - 1.0, 0.0, 1.0);
-  let color: vec4<f32> = vec4<f32>(1.0, 0.0, 1.0, 1.0);
-  return MeshVertex(position, color, uv);
-}
+#fn 
+
+var foo: f32 = 1.0;
+
+==> 
+
+Program(LocalDeclaration(GlobalVariableDeclaration(AttributeList,VariableDeclaration(var,VariableIdentifier(Identifier,TypeDeclaration(f32))),Value(FloatLiteral))))
