@@ -66,9 +66,9 @@ const parserWithMetadata = parser.configure({
       "true": t.number,
       "false": t.number,
     }),
+    // https://gitlab.com/unconed/use.gpu/-/blob/master/packages/shader/src/wgsl/highlight/wgsl.grammar
     indentNodeProp.add({
       ifStatement: continuedIndent({ except: /^\s*({|else\b)/ }),
-      LabeledStatement: flatIndent,
       CompoundStatement: delimitedIndent({ closing: "}" }),
       StructBodyDeclaration: delimitedIndent({ closing: '}' })
     }),
