@@ -21,6 +21,7 @@
     "@lezer/highlight": "^1.0.0",
     "@lezer/javascript": "^1.4.3",
     "@lezer/lr": "^1.0.0",
+    "@use-gpu/shader": "^0.8.4",
     "lezer": "^0.13.5"
   },
   "devDependencies": {

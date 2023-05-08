@@ -1,57 +1,76 @@
-import { parser } from "./syntax.grammar"
-// import {parser} from "@lezer/javascript"
+import { LRLanguage, LanguageSupport } from "@codemirror/language";
+import { parser } from '@use-gpu/shader/wgsl';
+import { styleTags, tags as t } from "@lezer/highlight";
 
-import {LRLanguage, LanguageSupport, 
-        delimitedIndent, flatIndent, continuedIndent, indentNodeProp,
-        foldNodeProp, foldInside} from "@codemirror/language"
-import {completeFromList, ifNotIn} from "@codemirror/autocomplete"
+export type WGSLProps = {
+  code: string,
+};
+
+const parserWithMetadata = parser.configure({
+  props: [
+    styleTags({
+      Assign: t.operator,
+      AddAssign: t.operator,
+      SubAssign: t.operator,
+      MulAssign: t.operator,
+      DivAssign: t.operator,
+      ModAssign: t.operator,
+      LeftAssign: t.operator,
+      RightAssign: t.operator,
+      AndAssign: t.operator,
+      XorAssign: t.operator,
+      OrAssign: t.operator,
+      Add: t.operator,
+      Sub: t.operator,
+      Mul: t.operator,
+      Div: t.operator,
+      Mod: t.operator,
+      Left: t.operator,
+      Right: t.operator,
+      And: t.operator,
+      Xor: t.operator,
+      Or: t.operator,
+      AndAnd: t.operator,
+      OrOr: t.operator,
+      Inc: t.operator,
+      Dec: t.operator,
+      Bang: t.operator,
+      Tilde: t.operator,
+      Eq: t.operator,
+      Neq: t.operator,
+      Lt: t.operator,
+      Lte: t.operator,
+      Gt: t.operator,
+      Gte: t.operator,
+      '<': t.operator,
+      '>': t.operator,
+      "ReturnType": t.operator,
+
+      "Comment": t.comment,
+      "FunctionHeader/Identifier": t.macroName,
+      "FunctionCall/Identifier": t.macroName,
+
+      "Keyword": t.keyword,
+      "Type": t.typeName,
+      "TypeDeclaration": t.typeName,
+      "Attribute": t.attributeName,
+      "Attribute/Identifier": t.attributeName,
+      "Attribute/IntLiteral": t.number,
+      "IntLiteral": t.number,
+      "UintLiteral": t.number,
+      "FloatLiteral": t.number,
+      "String": t.string,
+      "true": t.number,
+      "false": t.number,
+    }),
+  ]
+});
 
 
-/// A language provider based on the [Lezer JavaScript
-/// parser](https://github.com/lezer-parser/javascript), extended with
-/// highlighting and indentation information.
-export const WGSLLanguage = LRLanguage.define({
-  name: "wgsl",
-  parser: parser.configure({
-    props: [
-      indentNodeProp.add({
-        // ifStatement: continuedIndent({except: /^\s*({|else\b)/}),
-        // TryStatement: continuedIndent({except: /^\s*({|catch\b|finally\b)/}),
-        // LabeledStatement: flatIndent,
-        // switchBody: context => {
-        //   let after = context.textAfter, closed = /^\s*\}/.test(after), isCase = /^\s*(case|default)\b/.test(after)
-        //   return context.baseIndent + (closed ? 0 : isCase ? 1 : 2) * context.unit
-        // },
-        // // Block: delimitedIndent({closing: "}"}),
-        // ArrowFunction: cx => cx.baseIndent + cx.unit,
-        // "TemplateString BlockComment": () => null,
-        // "Statement Property": continuedIndent({except: /^{/}),
-      }),
-      foldNodeProp.add({
-        // "Block ClassBody SwitchBody EnumBody ObjectExpression ArrayExpression ObjectType": foldInside,
-        // BlockComment(tree) { return {from: tree.from + 2, to: tree.to - 2} }
-      })
-    ]
-  }),
-  languageData: {
-    closeBrackets: {brackets: ["(", "[", "{", "'", '"', "`"]},
-    commentTokens: {line: "//", block: {open: "/*", close: "*/"}},
-    indentOnInput: /^\s*(?:case |default:|\{|\}|<\/)$/,
-    wordChars: "$"
-  }
-})
+export function wgsl() {
+  const language = LRLanguage.define({
+    parser: parserWithMetadata,
+  });
 
-const keywords = "break case const continue default delete export extends false finally in instanceof let new return static super switch this throw true typeof var yield".split(" ").map(kw => ({label: kw, type: "keyword"}))
-export const dontComplete = [
-  "TemplateString", "String", "RegExp",
-  "LineComment", "BlockComment",
-  "VariableDefinition", "TypeDefinition", "Label",
-  "PropertyDefinition", "PropertyName",
-  "PrivatePropertyDefinition", "PrivatePropertyName"
-]
-
-export function WGSL() {
-  return new LanguageSupport(WGSLLanguage, [WGSLLanguage.data.of({
-    autocomplete: ifNotIn(dontComplete, completeFromList(keywords))
-  })]);
+  return new LanguageSupport(language);
 }

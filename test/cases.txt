@@ -1,7 +1,0 @@
-#fn 
-
-var foo: f32 = 1.0;
-
-==> 
-
-Program(LocalDeclaration(GlobalVariableDeclaration(AttributeList,VariableDeclaration(var,VariableIdentifier(Identifier,TypeDeclaration(f32))),Value(FloatLiteral))))
