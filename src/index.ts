@@ -1,4 +1,7 @@
-import { LRLanguage, LanguageSupport } from "@codemirror/language";
+import {
+  LRLanguage, LanguageSupport,
+  delimitedIndent, flatIndent, continuedIndent, indentNodeProp,
+} from "@codemirror/language";
 import { parser } from '@use-gpu/shader/wgsl';
 import { styleTags, tags as t } from "@lezer/highlight";
 
@@ -63,13 +66,27 @@ const parserWithMetadata = parser.configure({
       "true": t.number,
       "false": t.number,
     }),
+    indentNodeProp.add({
+      ifStatement: continuedIndent({ except: /^\s*({|else\b)/ }),
+      LabeledStatement: flatIndent,
+      CompoundStatement: delimitedIndent({ closing: "}" }),
+      StructBodyDeclaration: delimitedIndent({ closing: '}' })
+    }),
+
   ]
 });
 
 
 export function wgsl() {
   const language = LRLanguage.define({
+    name: "wgsl",
     parser: parserWithMetadata,
+    languageData: {
+      closeBrackets: { brackets: ["(", "[", "{", "'", '"', "`"] },
+      commentTokens: { line: "//", block: { open: "/*", close: "*/" } },
+      indentOnInput: /^\s*(?:case |default:|\{|\}|<\/)$/,
+      wordChars: "$"
+    }
   });
 
   return new LanguageSupport(language);
